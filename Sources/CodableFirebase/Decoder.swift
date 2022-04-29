@@ -1133,6 +1133,18 @@ extension _FirebaseDecoder {
         }
         
         switch options {
+        case .deferredToTimestamp:
+            if let timestamp = value as? TimestampType{
+                return timestamp.dateValue()
+            }
+            if let timestampDict = value as? [String:TimeInterval],
+               let nanoseconds = timestampDict["_nanoseconds"],
+               let seconds = timestampDict["_seconds"]{
+                let timeInterval = seconds + nanoseconds / 1e9
+                return Date(timeIntervalSince1970: timeInterval)
+            }
+            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: value)
+
         case .deferredToDate:
             self.storage.push(container: value)
             let date = try Date(from: self)

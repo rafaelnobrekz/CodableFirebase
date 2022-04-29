@@ -29,7 +29,7 @@ open class FirestoreDecoder {
     public init() {}
     
     open var userInfo: [CodingUserInfoKey : Any] = [:]
-    open var dateDecodingStrategy: FirebaseDecoder.DateDecodingStrategy = .deferredToDate
+    open var dateDecodingStrategy: FirebaseDecoder.DateDecodingStrategy = .deferredToTimestamp
     open var dataDecodingStrategy: FirebaseDecoder.DataDecodingStrategy = .deferredToData
     
     open func decode<T : Decodable>(_ type: T.Type, from container: [String: Any]) throws -> T {
